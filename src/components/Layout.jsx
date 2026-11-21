@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, usePath } from '../router'
 import { contact, services } from '../data/site'
 import Icon from './Icon'
+import { IMG_BASE } from './Img'
 
 const nav = [
   { label: 'À propos', to: '/#apropos' },
@@ -14,7 +15,7 @@ const nav = [
 function Logo() {
   return (
     <Link to="/" className="logo" aria-label="AMPIC — accueil">
-      <img src="/images/logo-180.webp" srcSet="/images/logo-180.webp 1x, /images/logo-360.webp 2x" width="120" height="56" alt="AMPIC" />
+      <img src={`${IMG_BASE}logo-180.webp`} srcSet={`${IMG_BASE}logo-180.webp 1x, ${IMG_BASE}logo-360.webp 2x`} width="120" height="56" alt="AMPIC" />
     </Link>
   )
 }
@@ -111,7 +112,7 @@ export function Footer() {
         </div>
         <div className="footer__grid">
           <div className="footer__brand">
-            <img src="/images/logo-180.webp" width="120" height="56" alt="AMPIC" loading="lazy" />
+            <img src={`${IMG_BASE}logo-180.webp`} width="120" height="56" alt="AMPIC" loading="lazy" />
             <p>Expertise en aménagement de plafonds BA13, design d’intérieur et finitions premium depuis plus de 7 ans.</p>
             <div className="footer__social">
               <a href={contact.facebook} target="_blank" rel="noopener noreferrer" aria-label="AMPIC sur Facebook">

@@ -8,7 +8,7 @@ import { RouterProvider } from './router'
 const root = document.getElementById('root')
 const app = (
   <StrictMode>
-    <RouterProvider initialPath={window.location.pathname}>
+    <RouterProvider initialPath={import.meta.env.VITE_DEMO === '1' ? '/' : window.location.pathname}>
       <App />
     </RouterProvider>
   </StrictMode>

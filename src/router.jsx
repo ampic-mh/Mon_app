@@ -2,16 +2,22 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 const RouterCtx = createContext('/')
 
+// Demo build (VITE_DEMO=1): pages are switched in memory, the URL never changes.
+// Used for previews hosted at an arbitrary path where /services/... cannot exist.
+const MEMORY = import.meta.env.VITE_DEMO === '1'
+let memoryPath = '/'
+const currentPath = () => (MEMORY ? memoryPath : normalize(window.location.pathname))
+
 export function normalize(path) {
   const p = path.split(/[?#]/)[0].replace(/\/+$/, '')
   return p === '' ? '/' : p
 }
 
 export function RouterProvider({ initialPath, children }) {
-  const [path, setPath] = useState(() => normalize(initialPath))
+  const [path, setPath] = useState(() => (memoryPath = normalize(initialPath)))
 
   useEffect(() => {
-    const onPop = () => setPath(normalize(window.location.pathname))
+    const onPop = () => !MEMORY && setPath(normalize(window.location.pathname))
     const onNav = (e) => setPath(normalize(e.detail))
     window.addEventListener('popstate', onPop)
     window.addEventListener('ampic:navigate', onNav)
@@ -28,12 +34,13 @@ export const usePath = () => useContext(RouterCtx)
 
 export function navigate(to) {
   const [pathname, hash] = to.split('#')
-  const target = normalize(pathname || window.location.pathname)
-  const samePage = target === normalize(window.location.pathname)
+  const target = pathname ? normalize(pathname) : currentPath()
+  const samePage = target === currentPath()
   if (!samePage) {
-    window.history.pushState({}, '', to)
+    if (MEMORY) memoryPath = target
+    else window.history.pushState({}, '', to)
     window.dispatchEvent(new CustomEvent('ampic:navigate', { detail: target }))
-  } else if (hash) {
+  } else if (hash && !MEMORY) {
     window.history.pushState({}, '', '#' + hash)
   }
   requestAnimationFrame(() => {

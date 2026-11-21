@@ -32,7 +32,13 @@ export default function ContactSection() {
     if (via === 'email') {
       window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent('[Site web] ' + subject)}&body=${encodeURIComponent(text)}`
     } else {
-      window.open(`${contact.whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener')
+      // A real link click (rather than window.open) also works inside sandboxed previews
+      const a = Object.assign(document.createElement('a'), {
+        href: `${contact.whatsapp}?text=${encodeURIComponent(text)}`,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      })
+      a.click()
     }
     setSent(true)
   }
