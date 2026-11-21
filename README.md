@@ -1,16 +1,39 @@
-# React + Vite
+# AMPIC — site vitrine (www.ampic.ma)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Refonte du site AMPIC : faux plafond, cloisons sèches et habillage BA13 à Casablanca.
+React 19 + Vite, avec **pré-rendu statique** de chaque page (HTML complet dès le premier octet → rapide et bien référencé).
 
-Currently, two official plugins are available:
+## Commandes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev      # développement sur http://localhost:5173
+npm run build    # génère le site statique dans dist/
+npm run preview  # prévisualise dist/
+npm run lint
+```
 
-## React Compiler
+## Mise en ligne
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Après `npm run build`, publier **le contenu de `dist/`** sur n'importe quel hébergement statique
+(Netlify, Vercel, Cloudflare Pages, o2switch/Apache, Hostinger…). Pages générées :
 
-## Expanding the ESLint configuration
+- `/` — accueil
+- `/services/faux-plafond`, `/services/faux-plafond-demontable`, `/services/cloisons-seches`, `/services/habillage-ba13`
+- `404.html`, `sitemap.xml`, `robots.txt`, `manifest.webmanifest`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Les URLs des pages de service sont identiques à l'ancien site (pas de lien cassé, pas de perte SEO).
+
+## Modifier le contenu
+
+Tout le texte (services, FAQ, réalisations, coordonnées) est dans **`src/data/site.js`**.
+
+## Images
+
+Les photos sont dans `public/images/`, en WebP à plusieurs largeurs (`nom-480.webp`, `nom-960.webp`, `nom-1200/1600.webp`).
+Leurs dimensions sont listées dans `src/data/images.json` (utilisé par le composant `Img` pour le `srcset`).
+Pour ajouter une photo : exporter les variantes WebP avec ce nommage, ajouter l'entrée dans `images.json`, puis la référencer par son nom dans `site.js`.
+
+## Formulaire de contact
+
+Le formulaire ne nécessite aucun serveur : il prépare le message et l'ouvre dans **WhatsApp** (ou dans le client **email**), prêt à être envoyé à AMPIC.

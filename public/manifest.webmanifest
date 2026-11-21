@@ -1,0 +1,9 @@
+{
+  "name": "AMPIC — Faux plafond, cloisons & habillage",
+  "short_name": "AMPIC",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f4ef",
+  "theme_color": "#0c1b2e",
+  "icons": [{ "src": "/images/icon-512.png", "sizes": "512x512", "type": "image/png" }]
+}
